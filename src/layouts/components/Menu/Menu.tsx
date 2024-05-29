@@ -7,12 +7,12 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 function Menu() {
     return (
         <div className="flex items-center gap-2">
-            <Link to={routes.newEmail}>
-                <Button variant="outlined" startIcon={<MailIcon></MailIcon>}>
-                    New Email
+            <Link to={routes.todo}>
+                <Button variant="outlined">
+                    TODO DASHBOARD
                 </Button>
             </Link>
-            <Link to={routes.sortByTime}>
+            <Link to={routes.sort}>
                 <Tooltip title="sort by time" placement="bottom">
                     <IconButton>
                         <FilterListIcon></FilterListIcon>

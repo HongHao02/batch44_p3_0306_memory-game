@@ -1,24 +1,40 @@
-import MailIcon from '@mui/icons-material/Mail';
 import { IconButton, Tooltip } from '@mui/material';
 import SidebarCustom from '../components/Sidebar/SidebarCustom';
-import { Outlet } from 'react-router-dom';
-
+import { Link, Outlet } from 'react-router-dom';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import Menu from '../components/Menu/Menu';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import React from 'react';
 import Header from '../components/Header/Header';
-
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import DeleteIcon from '@mui/icons-material/Delete';
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
+import Diversity2Icon from '@mui/icons-material/Diversity2';
+import GradingIcon from '@mui/icons-material/Grading';
+import routes from '../../config/routes';
+import HomeIcon from '@mui/icons-material/Home';
 function DefaultLayout() {
     return (
         <div className="flex flex-col gap-1 overflow-x-hidden min-h-screen">
             <Header></Header>
             <div className="flex bg-white mt-12 sm:mt-16 flex-1 mb-2">
                 <div className="flex flex-col  items-center w-14 bg-white shadow-md">
-                    <Tooltip title="Delete" placement="right">
+                    <Tooltip title="Home" placement="right">
+                        <Link to={routes.todo}>
+                            <IconButton>
+                                <HomeIcon></HomeIcon>
+                            </IconButton>
+                        </Link>
+                    </Tooltip>
+                    <Tooltip title="Compelted" placement="right">
+                        <Link to={routes.complete}>
+                            <IconButton>
+                                <GradingIcon></GradingIcon>
+                            </IconButton>
+                        </Link>
+                    </Tooltip>
+                    <Tooltip title="Resources" placement="right">
                         <IconButton>
-                            <MailIcon></MailIcon>
+                            <AssignmentIndIcon></AssignmentIndIcon>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Chat" placement="right">
@@ -26,19 +42,19 @@ function DefaultLayout() {
                             <ChatBubbleOutlineIcon></ChatBubbleOutlineIcon>
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Delete" placement="right">
+                    <Tooltip title="Diverity" placement="right">
                         <IconButton>
-                            <MailIcon></MailIcon>
+                            <Diversity2Icon></Diversity2Icon>
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Delete" placement="right">
+                    <Tooltip title="Trash" placement="right">
                         <IconButton>
-                            <MailIcon></MailIcon>
+                            <DeleteIcon></DeleteIcon>
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Delete" placement="right">
+                    <Tooltip title="Tag" placement="right">
                         <IconButton>
-                            <MailIcon></MailIcon>
+                            <LoyaltyIcon></LoyaltyIcon>
                         </IconButton>
                     </Tooltip>
                 </div>

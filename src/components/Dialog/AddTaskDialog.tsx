@@ -51,24 +51,23 @@ interface TaskError {
 }
 export default function AddTaskDialog() {
     const [open, setOpen] = React.useState(false);
+    const [canSubmit, setCansubmit] = useState(false);
 
     const [formData, setFormData] = useState<TaskInput>({ name: '', deadline: '', id: '' });
     const [error, setError] = useState<TaskError>({ errorName: null, errorDate: null, errorSelect: null });
-    const [canSubmit, setCansubmit] = useState(false);
+
     const dispatch: AppDispatch = useDispatch();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+        console.log(name,value)
         setFormData({
             ...formData,
             [name]: value,
         });
     };
     const handleSetError = (name: string, message: string | null) => {
-        setError({
-            ...error,
-            [name]: message,
-        });
+        setError((prev: TaskError) => ({ ...prev, [name]: message }));
     };
     const resetForm = () => {
         setFormData({
@@ -94,16 +93,17 @@ export default function AddTaskDialog() {
         };
         dispatch(addTask(inputTransform));
         resetForm();
+        setOpen(false)
     };
     useEffect(() => {
-        console.log('name ', formData.name.length, error.errorName);
         if (formData.name.length == 0) {
             handleSetError('errorName', 'Task name must be not empty!');
+        } else if (formData.name.length > 30) {
+            handleSetError('errorName', 'Task name length must less than 30 letters!');
         } else {
             handleSetError('errorName', null);
         }
         if (formData.deadline) {
-            handleSetError('errorDate', null);
             const momentDate = moment(formData.deadline);
             if (momentDate.diff(moment(), 'minutes') < 0) {
                 handleSetError('errorDate', 'Please choose another after today!');
@@ -113,10 +113,16 @@ export default function AddTaskDialog() {
         } else {
             handleSetError('errorDate', 'Task deadline must be not empty');
         }
-        if (error.errorDate == null && error.errorName == null && error.errorSelect == null) {
+        if (
+            error.errorDate == null &&
+            error.errorName == null &&
+            error.errorSelect == null &&
+            formData.name.length > 0 &&
+            formData.deadline.length > 0
+        ) {
             setCansubmit(true);
-        } else {
-            setCansubmit(false);
+        }else{
+            setCansubmit(false)
         }
     }, [formData]);
 

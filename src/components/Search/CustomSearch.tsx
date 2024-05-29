@@ -26,7 +26,7 @@ export default function CustomSearch() {
             </Link>
             <InputBase
                 sx={{ ml: 1, flex: 1 }}
-                placeholder="Search Email"
+                placeholder="Search Task"
                 inputProps={{ 'aria-label': 'search google maps' }}
                 // onChange={(e) => setSearch(e.target.value)}
                 // onKeyDown={handleEnterKeyDown}

@@ -13,14 +13,22 @@ export interface TaskI{
     respon?: UserI | undefined
 }
 
-export interface TrashTaskI extends TaskI{
-    index: number
-}
 
 export type TaskStatusType = "Not Started" | "In Progress" | "Completed" | "Pending" | "Overdue" | "Due Soon"
-
+export type Tasktype= "not-started"|"complete"|"trash"|"drafts"
+//Tasktype for redux store
 export interface TaskCreateInputI{
     name: string,
     deadline: string,
     id?: number,
 }
+export interface TaskUpdateInputI{
+    name: string,
+    deadline: string,
+    idTask: number,
+    idUser?: number
+}
+export interface TaskTranform extends TaskI{
+    index: number,
+}
+export type TaskIdAction = (taskId: number) => void;

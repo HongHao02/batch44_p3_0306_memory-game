@@ -130,7 +130,7 @@ export default function Header() {
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <p>DashBoard</p>
       </MenuItem>
       <MenuItem>
         <IconButton
