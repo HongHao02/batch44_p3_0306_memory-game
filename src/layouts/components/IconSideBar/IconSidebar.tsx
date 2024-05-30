@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 const IconSideBar = [
     { id: 1, icon: HomeIcon, title: 'Home', to: routes.todo },
     { id: 2, icon: GradingIcon, title: 'Completed', to: routes.complete },
-    { id: 3, icon: AssignmentIndIcon, title: 'Resources', to: routes.sort },
+    { id: 3, icon: AssignmentIndIcon, title: 'Resources', to: routes.dataset },
     { id: 4, icon: ChatBubbleOutlineIcon, title: 'Chat', to: routes.todo },
     { id: 5, icon: Diversity2Icon, title: 'Diverity', to: routes.todo },
     { id: 6, icon: DeleteIcon, title: 'Trash', to: routes.trash },

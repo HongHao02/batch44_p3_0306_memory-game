@@ -1,21 +1,18 @@
 import React from 'react';
 import { Button, IconButton, Tooltip } from '@mui/material';
-import MailIcon from '@mui/icons-material/Mail';
 import { Link } from 'react-router-dom';
 import routes from '../../../config/routes';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import DatasetIcon from '@mui/icons-material/Dataset';
 function Menu() {
     return (
         <div className="flex items-center gap-2">
             <Link to={routes.todo}>
-                <Button variant="outlined">
-                    TODO DASHBOARD
-                </Button>
+                <Button variant="outlined">TODO DASHBOARD</Button>
             </Link>
-            <Link to={routes.sort}>
-                <Tooltip title="Sort" placement="bottom">
+            <Link to={routes.dataset}>
+                <Tooltip title="Dataset" placement="bottom">
                     <IconButton>
-                        <FilterListIcon></FilterListIcon>
+                        <DatasetIcon></DatasetIcon>
                     </IconButton>
                 </Tooltip>
             </Link>

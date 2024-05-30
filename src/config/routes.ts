@@ -4,7 +4,7 @@ const routes = {
     todo: '/todo',
     complete: '/todo/make/complete',
     trash: '/todo/make/trash',
-    sort: '/todo/make/sort'
+    dataset: '/todo/make/dataset'
 };
 
 export default routes;

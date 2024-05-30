@@ -15,6 +15,8 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
 import { RichTreeView } from '@mui/x-tree-view/RichTreeView';
 import { treeItemClasses } from '@mui/x-tree-view/TreeItem';
+import DatasetIcon from '@mui/icons-material/Dataset';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { unstable_useTreeItem2 as useTreeItem2, UseTreeItem2Parameters } from '@mui/x-tree-view/useTreeItem2';
 import {
     TreeItem2Checkbox,
@@ -30,7 +32,7 @@ import { Link } from 'react-router-dom';
 
 import routes from '../../../config/routes';
 
-type FileType = 'image' | 'pdf' | 'doc' | 'video' | 'folder' | 'pinned' | 'trash';
+type FileType = 'image' | 'pdf' | 'doc' | 'video' | 'folder' | 'pinned' | 'trash' | 'dataset' | 'done';
 
 type ExtendedTreeItemProps = {
     fileType?: FileType;
@@ -53,12 +55,12 @@ const ITEMS: TreeViewBaseItem<ExtendedTreeItemProps>[] = [
             },
             { id: '1.2', label: 'Sent Items', fileType: 'folder' },
             { id: '1.3', label: 'Drafts', fileType: 'image' },
-            { id: '1.4', label: 'Complete Tasks', fileType: 'folder', to: routes.complete },
+            { id: '1.4', label: 'Complete Tasks', fileType: 'done', to: routes.complete },
             {
                 id: '1.5',
-                label: 'Sort',
-                fileType: 'folder',
-                to: routes.sort,
+                label: 'Dataset',
+                fileType: 'dataset',
+                to: routes.dataset,
             },
         ],
     },
@@ -69,9 +71,9 @@ const ITEMS: TreeViewBaseItem<ExtendedTreeItemProps>[] = [
         children: [
             {
                 id: '2.1',
-                label: 'Sort',
+                label: 'Dataset',
                 fileType: 'folder',
-                to: routes.sort,
+                to: routes.dataset,
             },
             { id: '2.2', label: 'News', fileType: 'folder', to: '/unknow' },
             { id: '2.3', label: 'Forums', fileType: 'folder', to: '/unknow' },
@@ -213,6 +215,10 @@ const getIconFromFileType = (fileType: FileType) => {
             return FolderOpenIcon;
         case 'trash':
             return DeleteIcon;
+        case 'dataset':
+            return DatasetIcon;
+        case 'done':
+            return CheckCircleOutlineIcon;
         default:
             return ArticleIcon;
     }

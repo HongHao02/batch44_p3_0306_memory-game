@@ -1,22 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TaskCreateInputI, TaskI, TaskTranform, TaskUpdateInputI, UserI } from '../../types/Task';
+import { ListTaskType, TaskCreateInputI, TaskI, TaskTranform, TaskUpdateInputI, UserI } from '../../types/Task';
 import staff from '../../data/User';
 import _ from 'lodash';
+import moment from 'moment';
 
 interface TodoInitialState {
     rootID: number;
+    activeList: ListTaskType;
     tasks: TaskI[];
     completeTask: TaskTranform[];
     trashTask: TaskTranform[];
+    sortByDeadlineTask: TaskI[];
+    sortByAssignedUserTask: TaskI[];
     error: string | undefined | null;
     state: 'pending' | 'fulfilled' | 'rejected' | 'none';
 }
 
 const initialState: TodoInitialState = {
     rootID: 0,
+    activeList: 'todo',
     tasks: [],
     completeTask: [],
     trashTask: [],
+    sortByDeadlineTask: [],
+    sortByAssignedUserTask: [],
     error: null,
     state: 'none',
 };
@@ -35,10 +42,28 @@ const todoSlice = createSlice({
                 respon: responUser,
             };
             state.tasks.push(taskTransform);
+            state.sortByDeadlineTask = _.sortBy(state.tasks, (task: TaskI) =>
+                moment(task.deadline, 'MM/DD/YYYY HH:mm'),
+            );
+            state.sortByAssignedUserTask = _.sortBy(state.tasks, (task: TaskI) => task.respon?.id);
         },
         addTasksList: (state, action: PayloadAction<TaskI[]>) => {
             state.rootID = action.payload.length;
             state.tasks = action.payload;
+
+            state.sortByDeadlineTask = _.sortBy(state.tasks, (task: TaskI) =>
+                moment(task.deadline, 'MM/DD/YYYY HH:mm'),
+            );
+            state.sortByAssignedUserTask = _.sortBy(state.tasks, (task: TaskI) => task.respon?.id);
+        },
+        addSortByDeadlineList: (state, action: PayloadAction<TaskI[]>) => {
+            state.sortByDeadlineTask = action.payload;
+        },
+        addSortByAssignedUserList: (state, action: PayloadAction<TaskI[]>) => {
+            state.sortByAssignedUserTask = action.payload;
+        },
+        setActiveListTask: (state, action: PayloadAction<ListTaskType>) => {
+            state.activeList = action.payload;
         },
         updateTask: (state, action: PayloadAction<TaskUpdateInputI>) => {
             const existsTask = _.find(state.tasks, (t: TaskI) => t.idTask == action.payload.idTask);
@@ -130,6 +155,17 @@ const todoSlice = createSlice({
     },
 });
 
-export const { addTask, updateTask, addCompleteTask, moveToTrash, redoTrashTask, redoCompleteTask, addTasksList } = todoSlice.actions;
+export const {
+    addTask,
+    updateTask,
+    addSortByAssignedUserList,
+    addSortByDeadlineList,
+    addCompleteTask,
+    moveToTrash,
+    redoTrashTask,
+    redoCompleteTask,
+    addTasksList,
+    setActiveListTask
+} = todoSlice.actions;
 
 export default todoSlice.reducer;

@@ -24,6 +24,8 @@ import CheckCompleteDialog from '../Dialog/CheckCompleteDialog';
 import Notification from '../Notification/Notification';
 import HandleTaskDiaglog from '../Dialog/HandleTaskDialog';
 import { addCompleteTask, moveToTrash } from '../../features/todoStore/todoSlice';
+import TodoSort from './components/TodoSort';
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#7a7c7e',
@@ -77,7 +79,9 @@ const renderChip = (deadline: string, respon: UserI | undefined) => {
 };
 
 export default function TodoTaskTable() {
-    const { tasks, error } = useSelector((state: RootState) => state.todos);
+    const { tasks, sortByAssignedUserTask, sortByDeadlineTask, activeList } = useSelector(
+        (state: RootState) => state.todos,
+    );
     const [tasksList, setTaskList] = React.useState<TaskI[]>(tasks);
     const dispatch: AppDispatch = useDispatch();
 
@@ -94,6 +98,18 @@ export default function TodoTaskTable() {
     const handleCheckCompleteTask = (idTask: number) => {
         dispatch(addCompleteTask(idTask));
     };
+    const chooseTaskList = () => {
+        switch (activeList) {
+            case 'todo':
+                return tasks;
+            case 'sortByAUser':
+                return sortByAssignedUserTask;
+            case 'sortByDeadline':
+                return sortByDeadlineTask;
+            default:
+                return tasks;
+        }
+    };
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -106,13 +122,17 @@ export default function TodoTaskTable() {
                         <StyledTableCell align="center">STATUS</StyledTableCell>
                         <StyledTableCell align="center">EDIT</StyledTableCell>
                         <StyledTableCell align="center">
-                            <AddTaskDialog></AddTaskDialog>
+                            <div className="flex justify-center items-center">
+                                {activeList}
+                                <TodoSort></TodoSort>
+                                <AddTaskDialog></AddTaskDialog>
+                            </div>
                         </StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {tasks.length != 0 ? (
-                        tasks.map((task) => (
+                    {chooseTaskList().length != 0 ? (
+                        chooseTaskList().map((task) => (
                             <StyledTableRow key={task.name}>
                                 <StyledTableCell component="th" scope="task">
                                     {task.idTask}

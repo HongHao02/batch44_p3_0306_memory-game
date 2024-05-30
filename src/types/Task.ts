@@ -13,7 +13,7 @@ export interface TaskI{
     respon?: UserI | undefined
 }
 
-
+export type ListTaskType= "todo"|"sortByDeadline"|"sortByAUser"
 export type TaskStatusType = "Not Started" | "In Progress" | "Completed" | "Pending" | "Overdue" | "Due Soon"
 export type Tasktype= "not-started"|"complete"|"trash"|"drafts"
 //Tasktype for redux store
