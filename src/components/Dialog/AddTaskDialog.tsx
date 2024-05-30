@@ -26,9 +26,10 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { TaskCreateInputI } from '../../types/Task';
 import staff from '../../data/User';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../app/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../app/store';
 import { addTask } from '../../features/todoStore/todoSlice';
+import { addDialog, resetDialog } from '../../features/dialogStore/dialogSlice';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -53,6 +54,7 @@ export default function AddTaskDialog() {
     const [open, setOpen] = React.useState(false);
     const [canSubmit, setCansubmit] = useState(false);
 
+    const { error: errorTodo } = useSelector((state: RootState) => state.todos);
     const [formData, setFormData] = useState<TaskInput>({ name: '', deadline: '', id: '' });
     const [error, setError] = useState<TaskError>({ errorName: null, errorDate: null, errorSelect: null });
 
@@ -60,7 +62,7 @@ export default function AddTaskDialog() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        console.log(name,value)
+        console.log(name, value);
         setFormData({
             ...formData,
             [name]: value,
@@ -82,6 +84,9 @@ export default function AddTaskDialog() {
             id: event.target.value,
         });
     };
+    const handleCloseNoti = () => {
+        dispatch(resetDialog());
+    };
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const { name, deadline, id } = formData;
@@ -93,7 +98,26 @@ export default function AddTaskDialog() {
         };
         dispatch(addTask(inputTransform));
         resetForm();
-        setOpen(false)
+        setOpen(false);
+        if (!errorTodo) {
+            dispatch(
+                addDialog({
+                    message: 'Add task successfully',
+                    open: true,
+                    onClose: handleCloseNoti,
+                    severity: 'success',
+                }),
+            );
+        } else {
+            dispatch(
+                addDialog({
+                    message: 'Some error occured when add task!Try again.',
+                    open: true,
+                    onClose: handleCloseNoti,
+                    severity: 'warning',
+                }),
+            );
+        }
     };
     useEffect(() => {
         if (formData.name.length == 0) {
@@ -121,8 +145,8 @@ export default function AddTaskDialog() {
             formData.deadline.length > 0
         ) {
             setCansubmit(true);
-        }else{
-            setCansubmit(false)
+        } else {
+            setCansubmit(false);
         }
     }, [formData]);
 
@@ -213,7 +237,7 @@ export default function AddTaskDialog() {
                                             <MenuItem
                                                 key={user.id}
                                                 value={`${user.id}`}
-                                            >{`${user.firstName}_${user.id}`}</MenuItem>
+                                            >{`${user.firstName} ${user.lastName}`}</MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>

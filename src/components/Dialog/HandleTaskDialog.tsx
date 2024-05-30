@@ -14,15 +14,16 @@ import { TaskI, TaskIdAction } from '../../types/Task';
 import Notification from '../Notification/Notification';
 import { ReduxResponse, ResponseObject } from '../../types/ResponseObject';
 import { SvgIconProps } from '@mui/material';
+import { addDialog, resetDialog, setStateDialog } from '../../features/dialogStore/dialogSlice';
 
 interface CheckCompleteDialogProps {
     task: TaskI;
     action: TaskIdAction;
     response: ReduxResponse;
-    icon: React.ElementType<SvgIconProps>,
-    title: string
+    icon: React.ElementType<SvgIconProps>;
+    title: string;
 }
-export default function HandleTaskDiaglog({ task, action, response, icon : Icon, title }: CheckCompleteDialogProps) {
+export default function HandleTaskDiaglog({ task, action, response, icon: Icon, title }: CheckCompleteDialogProps) {
     const [open, setOpen] = React.useState(false);
     const { error } = useSelector((state: RootState) => state.todos);
     const dispatch: AppDispatch = useDispatch();
@@ -36,14 +37,12 @@ export default function HandleTaskDiaglog({ task, action, response, icon : Icon,
 
     const handleClick = (message: string, severity: 'success' | 'error' | 'warning' | 'info') => {
         console.log('show_notification ');
-        setNotificationOpen(true);
-        setNotificationMessage(message);
-        setNotificationSeverity(severity);
+
+        dispatch(addDialog({ message: message, open: true, onClose: handleCloseNoti, severity: severity }));
     };
-    console.log('show_notification ', notificationOpen);
 
     const handleCloseNoti = () => {
-        setNotificationOpen(false);
+        dispatch(resetDialog())
     };
     ///
     const handleClickOpen = () => {
@@ -54,25 +53,26 @@ export default function HandleTaskDiaglog({ task, action, response, icon : Icon,
         setOpen(false);
     };
     const handleClickAgree = () => {
-        action(task.idTask)
+        action(task.idTask);
         if (error) {
             console.log('add_complete_error ', error);
-            handleClick(response.error, "error");
+            handleClick(response.error, 'error');
         } else {
             console.log('add_complete_success ', error);
-            handleClick(response.success, "success");
+            handleClick(response.success, 'success');
         }
         handleClose();
     };
 
     return (
         <React.Fragment>
-            <Notification
+            {/* {Dialog is mounted at DefaultLayout} */}
+            {/* <Notification
                 open={notificationOpen}
                 onClose={handleCloseNoti}
                 message={notificationMessage}
                 severity={notificationSeverity}
-            />
+            /> */}
             <Tooltip title={title}>
                 <IconButton onClick={handleClickOpen}>
                     <Icon></Icon>
@@ -92,8 +92,8 @@ export default function HandleTaskDiaglog({ task, action, response, icon : Icon,
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={handleClickAgree} autoFocus>
+                    <Button onClick={handleClose} color='error'>Disagree</Button>
+                    <Button onClick={handleClickAgree} autoFocus variant='contained'>
                         Agree
                     </Button>
                 </DialogActions>

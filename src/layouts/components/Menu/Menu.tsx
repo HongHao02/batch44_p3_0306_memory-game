@@ -13,7 +13,7 @@ function Menu() {
                 </Button>
             </Link>
             <Link to={routes.sort}>
-                <Tooltip title="sort by time" placement="bottom">
+                <Tooltip title="Sort" placement="bottom">
                     <IconButton>
                         <FilterListIcon></FilterListIcon>
                     </IconButton>

@@ -17,7 +17,6 @@ const Notification: React.FC<NotificationProps> = ({ open: openProp, onClose, me
     useEffect(() => {
         setOpen(openProp);
     }, [openProp]);
-    console.log('show_alert_snackbar ', open);
     return (
         <Snackbar
             open={open}

@@ -55,7 +55,6 @@ interface EditTaskDialogProps {
 export default function EditTaskDialog({ task }: EditTaskDialogProps) {
     const [open, setOpen] = React.useState(false);
     const [canSubmit, setCansubmit] = useState(false);
-
     const [formData, setFormData] = useState<TaskInput>({
         name: task.name,
         deadline: moment(task.deadline).format('YYYY-MM-DDTHH:mm:ss'),
@@ -63,6 +62,13 @@ export default function EditTaskDialog({ task }: EditTaskDialogProps) {
     });
     const [error, setError] = useState<TaskError>({ errorName: null, errorDate: null, errorSelect: null });
 
+    useEffect(() => {
+        setFormData({
+            name: task.name,
+            deadline: moment(task.deadline).format('YYYY-MM-DDTHH:mm:ss'),
+            id: `${task.respon?.id}` ?? '',
+        });
+    }, [task]);
     const dispatch: AppDispatch = useDispatch();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +80,6 @@ export default function EditTaskDialog({ task }: EditTaskDialogProps) {
     };
 
     const handleSetError = (name: string, message: string | null) => {
-        console.log('errorChange ', name, message);
         setError((prev: TaskError) => ({ ...prev, [name]: message }));
     };
     const resetForm = () => {
@@ -90,8 +95,6 @@ export default function EditTaskDialog({ task }: EditTaskDialogProps) {
             id: event.target.value,
         });
     };
-    console.log('formData ', formData);
-    console.log('errorHandle ', error);
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const { name, deadline, id } = formData;
@@ -107,7 +110,6 @@ export default function EditTaskDialog({ task }: EditTaskDialogProps) {
         handleClose();
     };
     useEffect(() => {
-        console.log('name ', formData.name.length, error.errorName);
         if (formData.name.length == 0) {
             handleSetError('errorName', 'Task name must be not empty!');
         } else if (formData.name.length > 30) {
@@ -225,7 +227,7 @@ export default function EditTaskDialog({ task }: EditTaskDialogProps) {
                                             <MenuItem
                                                 key={user.id}
                                                 value={`${user.id}`}
-                                            >{`${user.firstName}_${user.id}`}</MenuItem>
+                                            >{`${user.firstName} ${user.lastName}`}</MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>

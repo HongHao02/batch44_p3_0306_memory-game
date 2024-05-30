@@ -28,5 +28,12 @@ const staff: UserI[] = [
         email: 'Teslor_catherin@example.com',
         phone: '034578333',
     },
+    {
+        id: 5,
+        firstName: 'Taylor',
+        lastName: 'Adam',
+        email: 'adam_tylor@example.com',
+        phone: '0345783123',
+    },
 ];
 export default staff;

@@ -11,6 +11,7 @@ import { green } from '@mui/material/colors';
 import { TaskI, UserI } from '../../types/Task';
 import { Chip, IconButton, Tooltip } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import EditIcon from '@mui/icons-material/Edit';
 import moment from 'moment';
 import EditTaskDialog from '../Dialog/EditTaskDialog';
@@ -22,7 +23,7 @@ import { AppDispatch, RootState } from '../../app/store';
 import CheckCompleteDialog from '../Dialog/CheckCompleteDialog';
 import Notification from '../Notification/Notification';
 import HandleTaskDiaglog from '../Dialog/HandleTaskDialog';
-import { moveToTrash } from '../../features/todoStore/todoSlice';
+import { addCompleteTask, moveToTrash } from '../../features/todoStore/todoSlice';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#7a7c7e',
@@ -90,6 +91,9 @@ export default function TodoTaskTable() {
     const handleMoveToTrash = (idTask: number) => {
         dispatch(moveToTrash(idTask));
     };
+    const handleCheckCompleteTask = (idTask: number) => {
+        dispatch(addCompleteTask(idTask));
+    };
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -115,20 +119,25 @@ export default function TodoTaskTable() {
                                 </StyledTableCell>
                                 <StyledTableCell align="center">{task.name}</StyledTableCell>
                                 <StyledTableCell align="center">{task.deadline}</StyledTableCell>
-                                <StyledTableCell align="center">{`${task.respon?.firstName ?? 'Not'}_${
-                                    task.respon?.id ?? 'assign'
+                                <StyledTableCell align="center">{`${task.respon?.firstName ?? 'Not'} ${
+                                    task.respon?.lastName ?? 'assign'
                                 }`}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     {renderChip(task.deadline, task.respon)}
                                 </StyledTableCell>
                                 <StyledTableCell>
                                     <div className="flex gap-2 items-center justify-center">
-                                        <CheckCompleteDialog task={task}></CheckCompleteDialog>
-                                        {/* <Tooltip title="Move to trash">
-                                            <IconButton>
-                                                <DeleteIcon></DeleteIcon>
-                                            </IconButton>
-                                        </Tooltip> */}
+                                        {/* <CheckCompleteDialog task={task}></CheckCompleteDialog> */}
+                                        <HandleTaskDiaglog
+                                            title="Check completed"
+                                            icon={TaskAltIcon}
+                                            task={task}
+                                            response={{
+                                                error: 'Cannot add to complete task',
+                                                success: 'Move to complete task successfuly',
+                                            }}
+                                            action={handleCheckCompleteTask}
+                                        ></HandleTaskDiaglog>
                                         <HandleTaskDiaglog
                                             title="Move to trash"
                                             icon={DeleteIcon}
@@ -139,7 +148,6 @@ export default function TodoTaskTable() {
                                             }}
                                             action={handleMoveToTrash}
                                         ></HandleTaskDiaglog>
-
                                         <EditTaskDialog task={task}></EditTaskDialog>
                                     </div>
                                 </StyledTableCell>
