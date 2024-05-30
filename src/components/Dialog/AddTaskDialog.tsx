@@ -104,7 +104,6 @@ export default function AddTaskDialog() {
                 addDialog({
                     message: 'Add task successfully',
                     open: true,
-                    onClose: handleCloseNoti,
                     severity: 'success',
                 }),
             );
@@ -113,7 +112,6 @@ export default function AddTaskDialog() {
                 addDialog({
                     message: 'Some error occured when add task!Try again.',
                     open: true,
-                    onClose: handleCloseNoti,
                     severity: 'warning',
                 }),
             );

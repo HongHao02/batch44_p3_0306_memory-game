@@ -38,7 +38,7 @@ export default function HandleTaskDiaglog({ task, action, response, icon: Icon, 
     const handleClick = (message: string, severity: 'success' | 'error' | 'warning' | 'info') => {
         console.log('show_notification ');
 
-        dispatch(addDialog({ message: message, open: true, onClose: handleCloseNoti, severity: severity }));
+        dispatch(addDialog({ message: message, open: true,  severity: severity }));
     };
 
     const handleCloseNoti = () => {

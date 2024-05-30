@@ -10,10 +10,10 @@ import IconSidebar from '../components/IconSideBar/IconSidebar';
 
 function DefaultLayout() {
     const dispatch: AppDispatch = useDispatch();
-    const { open, onClose, message, severity } = useSelector((state: RootState) => state.dialog);
+    const { open, message, severity } = useSelector((state: RootState) => state.dialog);
     return (
         <div className="flex flex-col gap-1 overflow-x-hidden min-h-screen">
-            <Notification open={open} onClose={onClose} message={message} severity={severity} />
+            <Notification open={open} message={message} severity={severity} />
             <Header></Header>
             <div className="flex bg-white mt-12 sm:mt-16 flex-1 mb-2">
                 <IconSidebar></IconSidebar>

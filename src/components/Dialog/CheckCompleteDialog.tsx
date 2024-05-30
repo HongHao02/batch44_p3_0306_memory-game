@@ -63,7 +63,6 @@ export default function CheckCompleteDialog({ task }: CheckCompleteDialogProps) 
         <React.Fragment>
             <Notification
                 open={notificationOpen}
-                onClose={handleCloseNoti}
                 message={notificationMessage}
                 severity={notificationSeverity}
             />
