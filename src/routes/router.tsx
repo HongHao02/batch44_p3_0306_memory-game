@@ -10,6 +10,7 @@ import TodoTaskCompleteTable from '../components/Todo/TodoTaskMakerContainer';
 import TodoTaskMakeContainer from '../components/Todo/TodoTaskMakerContainer';
 import DataTable from '../components/Table/DataTable';
 import DataTableVer2 from '../components/Table/DataTableVer2';
+import MemoryContainer from '../components/Memory/MemoryContainer';
 
 const router = createBrowserRouter([
     {
@@ -48,5 +49,10 @@ const router = createBrowserRouter([
             },
         ],
     },
+    {
+        path: routes.memory,
+        element: <MemoryContainer></MemoryContainer>
+
+    }
 ]);
 export default router;

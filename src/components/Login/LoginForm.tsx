@@ -7,7 +7,7 @@ function Loginform() {
     const navigate = useNavigate();
     const handleLogin = () => {
         if (true) {
-            navigate('/todo');
+            navigate('/memory');
         }
     };
     return (
