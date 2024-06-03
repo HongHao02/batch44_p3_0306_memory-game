@@ -27,7 +27,7 @@ const Manual = () => {
 };
 
 function MemoryContainer() {
-    const gameLevel = 3;
+    const gameLevel = 10;
     const gameTimeLeft = 30;
     const dispatch: AppDispatch = useDispatch();
     const { sourceCon, level, playHistory } = useSelector((state: RootState) => state.memory);
@@ -180,11 +180,11 @@ function MemoryContainer() {
         }
     };
     return (
-        <div className="w-screen h-screen bg-slate-100 text-black dark:bg-gray-900 dark:text-white dark:transition dark:duration-1000">
+        <div className="w-screen min-h-screen p-2 bg-slate-100 text-black dark:bg-gray-900 dark:text-white dark:transition dark:duration-1000">
             <div className="flex flex-col h-full w-full">
                 <div className=" p-4 flex items-center  gap-4 h-20">
                     <div className="w-2/6">
-                        <p className="text-4xl font-bold bg-gradient-to-r from-blue-800 via-red-500 to-yellow-500 bg-clip-text text-fill-transparent">
+                        <p className="text-xl text-center md:text-left md:text-4xl font-bold bg-gradient-to-r from-blue-800 via-red-500 to-yellow-500 bg-clip-text text-fill-transparent">
                             MEMORY GAME
                         </p>
                     </div>
@@ -200,7 +200,7 @@ function MemoryContainer() {
                         </Tooltip>
                     </div>
                 </div>
-                <div className="flex flex-grow  flex-col md:flex-row p-2 rounded-md  ">
+                <div className="flex flex-grow flex-col min-h-[460px] justify-evenly md:flex-row p-2 rounded-md  ">
                     {!canPlay ? (
                         <div className="flex flex-col gap-2 justify-center items-center w-full">
                             <div className="flex gap-2">
@@ -222,15 +222,15 @@ function MemoryContainer() {
                         </div>
                     ) : (
                         <>
-                            <div className="flex flex-row  md:flex-col w-2/4 h-full  ">
+                            <div className="md:w-2/4">
                                 <MemoryLevel_Drag data={sConDrag}></MemoryLevel_Drag>
                             </div>
-                            <div className={`w-40 flex justify-center items-center`}>
-                                <Avatar sx={{ width: 100, height: 100, backgroundColor: handleTimeLeft(timeLeft) }}>
+                            <div className={`flex justify-center items-center`}>
+                                <Avatar sx={{ width: 80, height: 80, backgroundColor: handleTimeLeft(timeLeft) }}>
                                     <p className="text-white font-bold text-xl">{timeLeft}</p>
                                 </Avatar>
                             </div>
-                            <div className="flex flex-row md:flex-col w-2/4 h-full ">
+                            <div className=" md:w-2/4 ">
                                 <MemoryLevel_Drop data={sConDrop} onDrop={handleChoose}></MemoryLevel_Drop>
                             </div>
                         </>

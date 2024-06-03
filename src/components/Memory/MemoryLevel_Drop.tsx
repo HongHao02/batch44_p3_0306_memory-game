@@ -22,7 +22,7 @@ export const NameDroppable: React.FC<NameDroppableProps> = ({ id, name, onDrop }
     return (
         <div
             ref={drop}
-            className={`cursor-pointer w-60 h-20 flex justify-center items-center rounded-md shadow-sm font-bold text-xl ${
+            className={`cursor-pointer w-4/6 md:w-full h-20 flex justify-center items-center rounded-md shadow-sm font-bold text-xl ${
                 isOver ? 'bg-green-600' : 'bg-slate-300'
             }`}
         >
@@ -45,7 +45,7 @@ function MemoryLevel_Drop({ data, onDrop }: MemoryLevelDropProps) {
         setSource([...shuffleArray(data)]);
     }, [data]);
     return (
-        <div className="flex flex-row  md:flex-col justify-evenly items-center gap-2 h-full">
+        <div className="flex flex-row md:w-4/6 md:mx-auto md:flex-col md:h-full justify-evenly items-center gap-2">
             {source.map((mUser: MUserI) => (
                 <NameDroppable key={mUser.id} name={mUser.name} id={mUser.id} onDrop={onDrop}></NameDroppable>
             ))}

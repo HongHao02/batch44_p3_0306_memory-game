@@ -16,7 +16,7 @@ export const ImageDraggableItem = ({ id, src }: ImageDraggableItemProps) => {
         }),
     }));
     return (
-        <div className="h-1/3  flex justify-center ">
+        <div className="md:h-1/3 flex justify-center ">
             <div
                 ref={drag}
                 className={` h-full ${isDragging ? 'opacity-50' : 'opacity-100'} hover:scale-110 duration-200`}
@@ -40,7 +40,7 @@ function MemoryLevel_Drag({ data }: MemoryLevelDragProps) {
         setSource([...data]);
     }, [data]);
     return (
-        <div className="flex flex-row flex-grow md:flex-col gap-2 h-full">
+        <div className="flex flex-row  md:flex-col justify-evenly items-center gap-2 h-full">
             {source.map((mUser: MUserI) => (
                 <ImageDraggableItem key={mUser.id} id={mUser.id} src={mUser.image.src}></ImageDraggableItem>
             ))}
