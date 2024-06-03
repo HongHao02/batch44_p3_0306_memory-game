@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import _, { round } from 'lodash';
+import _ from 'lodash';
 import { HistoryRound, MUserI, SingleLevel } from '../../types/Memory';
-import { SatelliteAlt } from '@mui/icons-material';
 import { shuffleArray } from '../../utils/Function/Array';
+import moment from 'moment';
 
 interface MemoryInitialState {
     level: number;
@@ -17,7 +17,7 @@ interface MemoryInitialState {
 
 const initialState: MemoryInitialState = {
     level: 0,
-    round: 1,
+    round: 0,
     results: [],
     sourcePro: [],
     source: [],
@@ -54,13 +54,17 @@ const memorySlice = createSlice({
 
             state.playHistory.push({
                 no: state.round,
+                day: moment().format('MM/DD/YYYY HH:mm:ss'),
                 round: [...state.results],
                 totalCore: state.toTalCore,
+                toTalTime: _.reduce(state.results, (pre, cur) => pre + (30 - cur.time), 0),
             });
             state.results = [];
             state.toTalCore = 0;
             // state.playHistory= _.sortBy(state.playHistory, (h)=>h.totalCore, ['desc'])
-            state.playHistory = state.playHistory.sort((a, b) => b.totalCore - a.totalCore);
+            state.playHistory = state.playHistory.sort(
+                (a, b) => b.totalCore - a.totalCore || a.toTalTime - b.toTalTime,
+            );
         },
     },
 });

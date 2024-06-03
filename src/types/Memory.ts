@@ -21,5 +21,7 @@ export interface SingleLevel {
 export interface HistoryRound {
     no: number;
     round: SingleLevel[];
-    totalCore: number
+    totalCore: number,
+    day: string,
+    toTalTime: number,
 }

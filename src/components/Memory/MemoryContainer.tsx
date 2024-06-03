@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import images from '../../assets/images/images';
-import MemoryLevel from './MemoryLevel_Drag';
 import { AppDispatch, RootState } from '../../app/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSource, completeLevel, completePlay, startMemory } from '../../features/memoryStore/memorySlice';
 import { MemoryUser } from '../../data/MemoryUser';
-import { Avatar, Button, Divider, IconButton, Tooltip } from '@mui/material';
-import { MUserI, SingleLevel, UserChoose } from '../../types/Memory';
+import { Avatar, Button, IconButton, Tooltip } from '@mui/material';
+import { SingleLevel, UserChoose } from '../../types/Memory';
 import MemoryLevel_Drag from './MemoryLevel_Drag';
 import MemoryLevel_Drop from './MemoryLevel_Drop';
-import { divide, drop } from 'lodash';
-import { compose } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import HistoryTable from '../Table/HistoryTable';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Man } from '@mui/icons-material';
+import ThemeToggle from '../Theme/ThemeToggle';
 const Manual = () => {
     return (
         <div>
@@ -42,6 +38,7 @@ function MemoryContainer() {
     const [chooses, setChooses] = useState<UserChoose[]>([]);
     const [canPlay, setCanPlay] = useState(false);
     const [coreLevel, setCoreLevel] = useState(0);
+    //show complete round
 
     //init data memory user
     useEffect(() => {
@@ -56,9 +53,6 @@ function MemoryContainer() {
     console.log('source ', sConDrag, sConDrop);
     console.log('choose ', chooses);
     console.log('TIMELEFT ', timeLeft);
-
-    // console.log('sourceConDrag ', sConDrag);
-    // console.log('sourceConDrop', sConDrop);
 
     //update player choose
     const handleChoose = (id: number, droppedId: number) => {
@@ -186,22 +180,27 @@ function MemoryContainer() {
         }
     };
     return (
-        <div className="w-screen h-screen">
+        <div className="w-screen h-screen bg-slate-100 text-black dark:bg-gray-900 dark:text-white dark:transition dark:duration-1000">
             <div className="flex flex-col h-full w-full">
-                <div className=" p-4 flex items-center  gap-4 h-20 bg-slate-200">
-                    <p>MEMORY GAME</p>
-                    <p>LEVEL: {level}/10 </p>
-                    <p>| TIME LEFT: {timeLeft}</p>
-                    <div>CORE </div>
-                    <div className="flex flex-grow justify-end ml-auto">
+                <div className=" p-4 flex items-center  gap-4 h-20">
+                    <div className="w-2/6">
+                        <p className="text-4xl font-bold bg-gradient-to-r from-blue-800 via-red-500 to-yellow-500 bg-clip-text text-fill-transparent">
+                            MEMORY GAME
+                        </p>
+                    </div>
+                    <p className="font-bold w-2/6 text-center">
+                        LEVEL: {level}/{gameLevel}{' '}
+                    </p>
+                    <div className="flex justify-end items-center ml-auto w-2/6 ">
+                        <ThemeToggle></ThemeToggle>
                         <Tooltip title={<Manual></Manual>}>
                             <IconButton>
-                                <QuestionMarkIcon></QuestionMarkIcon>
+                                <QuestionMarkIcon color="secondary"></QuestionMarkIcon>
                             </IconButton>
                         </Tooltip>
                     </div>
                 </div>
-                <div className="flex flex-grow flex-row bg-slate-100 p-2 rounded-md shadow-md">
+                <div className="flex flex-grow  flex-col md:flex-row p-2 rounded-md  ">
                     {!canPlay ? (
                         <div className="flex flex-col gap-2 justify-center items-center w-full">
                             <div className="flex gap-2">
@@ -223,7 +222,7 @@ function MemoryContainer() {
                         </div>
                     ) : (
                         <>
-                            <div className="flex flex-col w-2/4 h-full  bg-white">
+                            <div className="flex flex-row  md:flex-col w-2/4 h-full  ">
                                 <MemoryLevel_Drag data={sConDrag}></MemoryLevel_Drag>
                             </div>
                             <div className={`w-40 flex justify-center items-center`}>
@@ -231,7 +230,7 @@ function MemoryContainer() {
                                     <p className="text-white font-bold text-xl">{timeLeft}</p>
                                 </Avatar>
                             </div>
-                            <div className="flex flex-col w-2/4 h-full  bg-white">
+                            <div className="flex flex-row md:flex-col w-2/4 h-full ">
                                 <MemoryLevel_Drop data={sConDrop} onDrop={handleChoose}></MemoryLevel_Drop>
                             </div>
                         </>
@@ -240,7 +239,7 @@ function MemoryContainer() {
                     {/* <MemoryLevel_Drag data={sConDrag}></MemoryLevel_Drag>
                     <MemoryLevel_Drop data={sConDrop} onDrop={handleChoose}></MemoryLevel_Drop> */}
                 </div>
-                <div className=" flex flex-col items-center gap-2 h-10 bg-slate-300">
+                <div className=" flex flex-col items-center gap-2 h-10">
                     <div className="flex justify-center item-center gap-2 h-full">
                         {level >= 1 && level < gameLevel && (
                             <Tooltip title="Click Next to skip this level">

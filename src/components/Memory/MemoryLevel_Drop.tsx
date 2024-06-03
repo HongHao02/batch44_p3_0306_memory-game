@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import images from '../../assets/images/images';
 import { useDrop } from 'react-dnd';
 import { MUserI } from '../../types/Memory';
 import { shuffleArray } from '../../utils/Function/Array';
-import { Tooltip } from '@mui/material';
 
 interface NameDroppableProps {
     id: number;
@@ -47,7 +45,7 @@ function MemoryLevel_Drop({ data, onDrop }: MemoryLevelDropProps) {
         setSource([...shuffleArray(data)]);
     }, [data]);
     return (
-        <div className="flex flex-col justify-evenly items-center gap-2 h-full">
+        <div className="flex flex-row  md:flex-col justify-evenly items-center gap-2 h-full">
             {source.map((mUser: MUserI) => (
                 <NameDroppable key={mUser.id} name={mUser.name} id={mUser.id} onDrop={onDrop}></NameDroppable>
             ))}

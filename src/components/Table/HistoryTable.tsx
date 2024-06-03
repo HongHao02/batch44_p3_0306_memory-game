@@ -15,6 +15,10 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { HistoryRound, UserChoose } from '../../types/Memory';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
+import _ from 'lodash';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import { Tooltip } from '@mui/material';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 
 interface RowProps {
     row: HistoryRound;
@@ -48,10 +52,21 @@ const RenderAnswer = ({ chooses, idChoose }: { chooses: UserChoose[]; idChoose: 
 
 function Row({ row }: RowProps) {
     const [open, setOpen] = React.useState(false);
+    const { playHistory } = useSelector((state: RootState) => state.memory);
 
     return (
         <React.Fragment>
-            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+            <TableRow
+                sx={{
+                    '& > *': { borderBottom: 'unset' },
+                    backgroundColor:
+                        row.no == playHistory.length
+                            ? '#0000001f'
+                            : row.no == playHistory[0]?.no
+                            ? '#339f33'
+                            : 'inherit',
+                }}
+            >
                 <TableCell>
                     <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -61,9 +76,21 @@ function Row({ row }: RowProps) {
                     {row.no}
                 </TableCell>
                 <TableCell align="right">{row.totalCore}</TableCell>
-                <TableCell align="right"></TableCell>
-                <TableCell align="right"></TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align="right">{row.toTalTime}</TableCell>
+                <TableCell align="right">
+                    {row.no == playHistory[0]?.no && (
+                        <Tooltip title="Your best round">
+                            <MilitaryTechIcon></MilitaryTechIcon>
+                        </Tooltip>
+                    )}
+                    {row.no == playHistory.length && (
+                        <Tooltip title="Your last round">
+                            <MyLocationIcon></MyLocationIcon>
+                        </Tooltip>
+                    )}
+
+                </TableCell>
+                <TableCell align="right">{row.day}</TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -116,9 +143,9 @@ export default function HistoryTable() {
                         <TableCell />
                         <TableCell>No.</TableCell>
                         <TableCell align="right">Total core</TableCell>
-                        <TableCell align="right">NONE</TableCell>
-                        <TableCell align="right">NONE</TableCell>
-                        <TableCell align="right">NONE</TableCell>
+                        <TableCell align="right">Time</TableCell>
+                        <TableCell align="right">TOP</TableCell>
+                        <TableCell align="right">Day</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

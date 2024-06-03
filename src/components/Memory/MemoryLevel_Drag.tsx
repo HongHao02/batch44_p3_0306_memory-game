@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import images from '../../assets/images/images';
-import { useDrag, useDrop } from 'react-dnd';
+import { useDrag } from 'react-dnd';
 import { MUserI } from '../../types/Memory';
-import { shuffleArray } from '../../utils/Function/Array';
-import { Tooltip } from '@mui/material';
 
 interface ImageDraggableItemProps {
     id: number;
@@ -19,8 +16,11 @@ export const ImageDraggableItem = ({ id, src }: ImageDraggableItemProps) => {
         }),
     }));
     return (
-        <div className="h-1/3  flex justify-center">
-            <div ref={drag} className={`w-40 h-full ${isDragging ? 'opacity-50' : 'opacity-100'}`}>
+        <div className="h-1/3  flex justify-center ">
+            <div
+                ref={drag}
+                className={` h-full ${isDragging ? 'opacity-50' : 'opacity-100'} hover:scale-110 duration-200`}
+            >
                 <img src={src} alt="img1" className="object-cover h-full w-full rounded-md shadow-md" />
             </div>
         </div>
@@ -40,7 +40,7 @@ function MemoryLevel_Drag({ data }: MemoryLevelDragProps) {
         setSource([...data]);
     }, [data]);
     return (
-        <div className="flex flex-col gap-2 h-full">
+        <div className="flex flex-row flex-grow md:flex-col gap-2 h-full">
             {source.map((mUser: MUserI) => (
                 <ImageDraggableItem key={mUser.id} id={mUser.id} src={mUser.image.src}></ImageDraggableItem>
             ))}
